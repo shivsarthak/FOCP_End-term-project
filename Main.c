@@ -9,7 +9,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void createUID(){                   //Create UID for student details
+void newNotice()
+{
+    FILE *fptr;
+    fptr=fopen("notice.txt", "w");
+    if(fptr == NULL)
+    {
+       printf("Error!");
+       exit(1);
+    }
+}
+
+
+void createUID(){                   //Create Unique user ID for user
     
 }
 struct staffUserDetails{
@@ -17,6 +29,7 @@ struct staffUserDetails{
     char UID[12];
     int age;
     int staffCode;
+    char pass[5];
     
 };
 struct stUserDetails{               //structure to hold student details
@@ -24,11 +37,12 @@ struct stUserDetails{               //structure to hold student details
     char UID[12];
     int age;
     int admNo;
-    char pass[4];
+    char pass[5];
 };
-void registerStudent()
+void registerStudent()                  //function to take student details and update the staff database
 {   struct stUserDetails st;        //structure variable to store data for student which
                                     //will further be written in binary file
+    int p=0;
     FILE *stDt;
     printf("\nSchool Bus Management System\n\t\t\tRegister User (Student)\n");
     printf("\nFull Name:");
@@ -37,6 +51,21 @@ void registerStudent()
     scanf("%d",&st.age);
     printf("\nAdmission Number:");
     scanf("%d",&st.admNo);
+    printf("\nInput password(4 characters):");
+    do {
+
+        st.pass[p]=getch();
+        if(st.pass[p]!='\r')
+            {
+            printf("*");
+        }
+
+        p++;
+        if(p==4)
+            break;
+    } while(st.pass[p-1]!='\r');
+    st.pass[4]='\0';
+    
     if((stDt=fopen("/studentData.bin","wb"))==NULL){
         printf("\nError Opening the file exiting program");
         exit(1);
@@ -48,9 +77,10 @@ void registerStudent()
     }
 }
 
-void registerSaff()
+void registerSaff()                 //function to take input the staff details and update the staff databse
 {   struct staffUserDetails st;        //structure variable to store data which
-                                    //will further be written in binary file
+                                        //will further be written in binary file
+    int p=0;
     FILE *stDt;
     printf("\nSchool Bus Management System\n\t\t\tRegister User (Student)\n");
     printf("\nFull Name:");
@@ -59,6 +89,21 @@ void registerSaff()
     scanf("%d",&st.age);
     printf("\nStaff Code:");
     scanf("%d",&st.staffCode);
+    printf("\nInput password(4 characters):");
+    do {
+
+        st.pass[p]=getch();
+        if(st.pass[p]!='\r')
+            {
+            printf("*");
+        }
+
+        p++;
+        if(p==4)
+            break;
+    } while(st.pass[p-1]!='\r');
+    st.pass[4]='\0';
+    
     if((stDt=fopen("/staffData.bin","wb"))==NULL){
         printf("\nError Opening the file exiting program");
         exit(1);
@@ -70,7 +115,7 @@ void registerSaff()
     }
 }
 
-void registerScreen(){              //function to show register menu i.e.
+void registerScreen(){              //function to show register menu
     int ch,ex=1;
     while(ex){
     printf("School Bus Management System\n\t\t\tRegister User\n1.Staff\n2.Student\nChoice:");
