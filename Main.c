@@ -27,7 +27,7 @@ struct stUserDetails{               //structure to hold student details
     char pass[4];
 };
 void registerStudent()
-{   struct stUserDetails st;        //structure variable to store data which
+{   struct stUserDetails st;        //structure variable to store data for student which
                                     //will further be written in binary file
     FILE *stDt;
     printf("\nSchool Bus Management System\n\t\t\tRegister User (Student)\n");
@@ -35,9 +35,31 @@ void registerStudent()
     scanf("%s",st.name);
     printf("\nAge:");
     scanf("%d",&st.age);
-    printf("\nUsername:");
+    printf("\nAdmission Number:");
     scanf("%d",&st.admNo);
-    if((stDt=fopen("/userData.bin","wb"))==NULL){
+    if((stDt=fopen("/studentData.bin","wb"))==NULL){
+        printf("\nError Opening the file exiting program");
+        exit(1);
+    }
+    else{
+    fwrite(&stDt, sizeof(struct stUserDetails), 1, stDt);
+        fclose(stDt);
+        printf("\nSuccessfully Updated the database");
+    }
+}
+
+void registerSaff()
+{   struct staffUserDetails st;        //structure variable to store data which
+                                    //will further be written in binary file
+    FILE *stDt;
+    printf("\nSchool Bus Management System\n\t\t\tRegister User (Student)\n");
+    printf("\nFull Name:");
+    scanf("%s",st.name);
+    printf("\nAge:");
+    scanf("%d",&st.age);
+    printf("\nStaff Code:");
+    scanf("%d",&st.staffCode);
+    if((stDt=fopen("/staffData.bin","wb"))==NULL){
         printf("\nError Opening the file exiting program");
         exit(1);
     }
